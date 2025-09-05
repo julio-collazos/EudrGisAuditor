@@ -1,0 +1,11 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Círculo de fondo -->
+  <circle cx="100" cy="100" r="90" fill="#5D3FD3"/>
+
+  <!-- Monograma GM estilizado -->
+  <path d="M70,100 Q85,60 110,70 Q135,80 130,110 Q125,140 90,130 Q65,120 70,100 Z" fill="none" stroke="white" stroke-width="8"/>
+
+  <!-- Flecha interna -->
+  <polyline points="110,110 120,90 130,110" fill="none" stroke="white" stroke-width="5"/>
+  <line x1="120" y1="95" x2="120" y2="130" stroke="white" stroke-width="5"/>
+</svg>
