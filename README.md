@@ -14,7 +14,7 @@ The simplest way to run this application is with **Docker** and **Docker Compose
 
    ```bash
    git clone https://github.com/julio-collazos/EudrGisAuditor.git
-   cd EUDR-GIS-Auditor
+   cd EudrGisAuditor
    ```
 
 2. **Start the application:**
