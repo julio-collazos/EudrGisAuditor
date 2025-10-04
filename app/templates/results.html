@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Results - GIS Assistant</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results_style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="results-page-body">
+    <header class="app-header">
+        <div class="header-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            <h3>GIS Quality Assistant</h3>
+        </div>
+        <div class="view-switcher">
+            <button id="dashboard-btn" class="view-switch-btn active" data-view="dashboard">Dashboard</button>
+            <button id="gis-btn" class="view-switch-btn" data-view="gis">GIS Analysis</button>
+        </div>
+        <div class="header-actions">
+            <div class="button-group download-group">
+                <a id="download-consolidated-btn" class="icon-text-button" title="Download a single GeoJSON file with all valid and converted entities, ready for final use." href="{{ url_for('consolidate_features', session_id=session_id) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Download Clean GeoJSON</span>
+                </a>
+                <a id="download-all-btn" href="{{ url_for('download_results', session_id=session_id) }}" class="icon-text-button" title="Download a complete ZIP file with all results, reports, and audit folders.">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Full ZIP</span>
+                </a>
+            </div>
+            <a href="{{ url_for('index') }}" class="icon-text-button" title="Process new files">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg><span>New Upload</span>
+            </a>
+            <div class="error-message"></div>
+        </div>
+    </header>
+
+    <main class="app-main">
+        <div id="dashboard-view" class="app-view active">
+            <div class="dashboard-grid">
+                <div id="summary-cards" class="dashboard-summary-cards"></div>
+                <div class="chart-container">
+                    <canvas id="status-chart"></canvas>
+                </div>
+            </div>
+            <div class="data-table-wrapper">
+                <h3>Summary Report by File</h3>
+                <table id="summary-table" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Processing Status</th>
+                            <th>Total Features</th>
+                            <th>Valid Polygons (&gt;4ha)</th>
+                            <th>For Review</th>
+                            <th>Candidates (&lt;4ha)</th>
+                            <th>Attribute Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="gis-view" class="app-view">
+            <div id="map"></div>
+            <div id="gis-layer-panel" class="gis-panel closed">
+                <div class="panel-header"><h4>Layers with errors</h4></div>
+                <div class="panel-content">
+                    <ul id="layer-list"></ul>
+                </div>
+                <div id="layer-list-footer" class="panel-footer hidden"></div>
+            </div>
+            <button id="layer-panel-toggle" class="icon-button gis-panel-toggle-left" title="Show/Hide Layers with Errors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </button>
+            <div id="gis-data-drawer" class="gis-panel closed">
+                <div class="panel-header"><h4>Conversion Work Table</h4></div>
+                <div class="panel-content">
+                    <table id="detailed-table" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Assistant ID</th>
+                                <th>Diagnosis</th>
+                                <th>Attributes</th>
+                                <th>Original File</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailed-table-body"></tbody>
+                    </table>
+                    <button id="convert-all-btn" class="button primary" style="margin-top: 1rem;">Convert All to Points</button>
+                </div>
+            </div>
+            <button id="data-drawer-toggle" class="floating-toggle-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <span class="button-label">Work Table</span>
+                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+            </button>
+        </div>
+    </main>
+    <div id="loading-overlay" class="hidden">
+        <div class="spinner-container">
+            <div class="spinner-border" role="status"></div>
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script>
+        const SESSION_ID = "{{ session_id }}";
+    </script>
+    <script type="module" src="{{ url_for('static', filename='js/results/index.js') }}"></script>
+</body>
+</html>

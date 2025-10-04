@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIS Quality Assistant for EUDR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload_style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="upload-page-body">
+    <div class="upload-container">
+        <div class="info-panel">
+            <div class="info-content">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                    <h2>GIS Assistant</h2>
+                </div>
+                <h1>Validate, clean, and prepare your geospatial data for EUDR.</h1>
+                <p>Ensure 100% compliance with technical regulations, save hours of manual work, and get a complete diagnosis with full traceability of your data.</p>
+                <ul class="features-list">
+                    <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2L4.5 5L12 8l7.5-3L12 2m-7.42 5.62c-.15.06-.28.16-.39.28L2.5 12l9.5 4l9.5-4l-1.7-1.1c-.1-.08-.24-.13-.39-.13s-.28.05-.39.13l-6.94 4.34l-6.94-4.34c-.1-.08-.24-.13-.39-.13s-.28.05-.39.13M4.58 14.38c-.15.06-.28.16-.39.28L2.5 16l9.5 4l9.5-4l-1.7-1.1c-.1-.08-.24-.13-.39-.13s-.28.05-.39.13l-6.94 4.34l-6.94-4.34c-.1-.08-.24-.13-.39-.13s-.28.05-.39.13Z"/></svg><span>EUDR-Compliant Validation</span></li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m19.23 15.2l-3.34-3.34c-.2-.2-.2-.51 0-.71l3.34-3.34c.2-.2.51-.2.71 0l1.11 1.11c.2.2.2.51 0 .71L19.94 12l1.11 1.11c.2.2.2.51 0 .71l-1.11 1.11c-.2.2-.51.2-.71 0M4.77 15.2c-.2-.2-.2-.51 0-.71l1.11-1.11L4.77 12l-1.11-1.11a.5.5 0 0 1 0-.71l1.11-1.11a.5.5 0 0 1 .71 0l3.34 3.34c.2.2.2.51 0 .71L5.47 15.2a.5.5 0 0 1-.7 0m6.49-8.49l-2.47 2.47a.5.5 0 0 0 0 .71l4.95 4.95a.5.5 0 0 0 .71 0l2.47-2.47a.5.5 0 0 0 0-.71L12.67 6.71a.5.5 0 0 0-.71 0l-.7.7Z"/></svg><span>Full Traceability</span></li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11 17h2v-6h-2zm1-8q.425 0 .713-.288T13 8q0-.425-.288-.713T12 7q-.425 0-.713.288T11 8q0 .425.288.713T12 9M2 22V4q0-.825.588-1.413T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.588 1.413T20 18H6z"/></svg><span>Interactive Diagnosis</span></li>
+                </ul>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/julio-collazos/" target="_blank" title="LinkedIn Profile"><i class="fab fa-linkedin social-icon linkedin"></i></a>
+                    <a href="https://github.com/julio-collazos" target="_blank" title="GitHub Profile"><i class="fab fa-github social-icon github"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-panel">
+            <main id="upload-section">
+                <fieldset id="upload-fieldset">
+                    <div id="drop-zone">
+                        <div class="drop-zone-icon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></div>
+                        <p>Drag and drop your folder here</p>
+                        <span class="drop-zone-divider">or</span>
+                        <input type="file" id="file-input" webkitdirectory directory multiple>
+                        <label for="file-input" class="button">Select a Folder</label>
+                    </div>
+
+                    <div id="file-list-area" class="hidden">
+                        <h4>Selected Files</h4>
+                        <div id="file-list-container"></div>
+                    </div>
+
+                    <div class="options">
+                        <h4>Processing Settings</h4>
+                        <div class="option-row">
+                            <span>Simplify geometries</span>
+                            <label class="toggle-switch"><input type="checkbox" id="simplify" checked><span></span></label>
+                        </div>
+                        <div class="option-row">
+                            <span>Auto-fix geometries</span>
+                            <label class="toggle-switch"><input type="checkbox" id="autofix" checked><span></span></label>
+                        </div>
+                        <div class="option-row">
+                            <span>Identify small polygons (&lt;4ha)</span>
+                            <label class="toggle-switch"><input type="checkbox" id="identify_candidates" checked><span></span></label>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button id="process-btn" class="button primary" disabled>Process Files</button>
+                    </div>
+                </fieldset>
+
+                <div id="progress-section" class="hidden">
+                    <div class="progress-info">
+                        <span id="progress-step">Starting...</span>
+                        <span id="status-message">Preparing the environment...</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                    <a href="#" id="results-link" class="button disabled">View Results</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

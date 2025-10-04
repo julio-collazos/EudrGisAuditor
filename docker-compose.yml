@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - uploads:/app/uploads:delegated 
+    environment:
+      FLASK_ENV: production
+      FLASK_DEBUG: 0
+      UPLOAD_FOLDER: /app/uploads 
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 20G
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  uploads:
+
