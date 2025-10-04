@@ -1,5 +1,7 @@
 # 📂 EUDR GIS Auditor
 
+<image src="./EudrGisAuditor.png"><image>
+
 The **EUDR GIS Auditor** is a web-based tool designed to **validate, audit, and clean geospatial data**, specifically tailored to the requirements of the **European Union Deforestation Regulation (EUDR)**. It processes common GIS file formats, identifies and fixes errors, and provides an **interactive dashboard and map** for thorough review.
 
 ---
