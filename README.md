@@ -18,12 +18,31 @@ The simplest way to run this application is with **Docker** and **Docker Compose
    ```
 
 2. **Start the application (using a Python environment):**
+   
+   **Step 1:** Create and Activate the Conda Environment:
+   
+   Create a new environment with Python 3.10:
 
    ```bash
-   conda create -n eudrgisauditor python=3.10
+   conda create -n eudrgisauditor python=3.10 -y
    conda activate eudrgisauditor
-   pip install .
    ```
+   **Step 2:** Install Dependencies
+
+   Install GDAL via Conda, then install the remaining packages from requirements.txt:
+   ```bash
+   conda install -c conda-forge gdal=3.6.2 -y
+   pip install -r requirements.txt
+   ```
+   **Step 3:** Launch the Application
+
+
+   Run the main script:
+   ```bash
+   python start.py
+   ```
+
+   Once launched, you're ready to explore the tool!
 
 3. **Access the app:**
    Open your browser and navigate to 👉 [http://localhost:5000](http://localhost:5000)
