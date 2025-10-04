@@ -17,12 +17,7 @@ The simplest way to run this application is with **Docker** and **Docker Compose
    cd EudrGisAuditor
    ```
 
-2. **Start the application (using Docker):**
-
-   ```bash
-   docker compose up --build
-   ```
-   Or using a Python environment
+2. **Start the application (using a Python environment):**
 
    ```bash
    conda create -n eudrgisauditor python=3.10
@@ -31,7 +26,7 @@ The simplest way to run this application is with **Docker** and **Docker Compose
    ```
 
 3. **Access the app:**
-   Open your browser and navigate to 👉 [http://0.0.0.0:5000](http://0.0.0.0:5000)
+   Open your browser and navigate to 👉 [http://localhost:5000](http://localhost:5000)
 
 ---
 
@@ -49,5 +44,5 @@ The simplest way to run this application is with **Docker** and **Docker Compose
 * 🔑 **User Authentication** → Add login system for managing sessions and data access.
 * 📂 **Support Additional Formats** → Expand compatibility with more GIS formats.
 * 🗄️ **Database Integration** → Store and manage audit results for long-term tracking.
-
+* 🐳 **Production-Ready Docker** → Stabilize the container for reliable deployment in production environments (currently experimental).
 ---
