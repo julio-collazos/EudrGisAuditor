@@ -13,7 +13,7 @@ The simplest way to run this application is with **Docker** and **Docker Compose
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/julio-collazos/EUDR-GIS-Auditor.git
+   git clone https://github.com/julio-collazos/EudrGisAuditor.git
    cd EUDR-GIS-Auditor
    ```
 
