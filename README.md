@@ -17,14 +17,21 @@ The simplest way to run this application is with **Docker** and **Docker Compose
    cd EudrGisAuditor
    ```
 
-2. **Start the application:**
+2. **Start the application (using Docker):**
 
    ```bash
    docker compose up --build
    ```
+   Or using a Python environment
+
+   ```bash
+   conda create -n eudrgisauditor python=3.10
+   conda activate eudrgisauditor
+   pip install .
+   ```
 
 3. **Access the app:**
-   Open your browser and navigate to 👉 [http://localhost:5000](http://localhost:5000)
+   Open your browser and navigate to 👉 [http://0.0.0.0:5000](http://0.0.0.0:5000)
 
 ---
 
